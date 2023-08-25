@@ -1,2 +1,8 @@
-let panel = document.getElementById("panel");
-panel.textContent = "teste 10 ++";
+let operators = document.querySelectorAll(".operators");
+let anyOperator = "";
+operators.forEach((operator) => {
+  operator.addEventListener("click", () => {
+    anyOperator = operator.textContent;
+    console.log(`operator clicked: ${anyOperator}`);
+  });
+});
