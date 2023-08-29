@@ -54,6 +54,7 @@ body {
   grid-area: panel;
   height: 80px;
   font-size: 20px;
+  padding: 5px;
 
   display: flex;
   justify-content: end;
@@ -119,5 +120,11 @@ body {
 }
 
 .operators {
+  background-color: var(--operators);
+}
+.equal {
+  background-color: var(--operators);
+}
+.clear {
   background-color: var(--operators);
 }
