@@ -42,7 +42,7 @@ const performCalculation = () => {
     anyNumbers.push(result);
   }
 };
-
+// testando git merge
 equal.addEventListener("click", () => {
   const makeSum = anyOperator === "+" && anyNumbers.length > 0;
   const makeSubtract = anyOperator === "-" && anyNumbers.length > 0;
