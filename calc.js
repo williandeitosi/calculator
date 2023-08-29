@@ -1,62 +1,74 @@
-const operators = document.querySelectorAll(".operators");
+const panel = document.getElementById("panel");
 const numbers = document.querySelectorAll(".numbers");
-const equal = document.querySelector(".equal");
-const clear = document.querySelector(".clear");
-const panel = document.querySelector("#panel");
+const operators = document.querySelectorAll(".operators");
+const equalButton = document.querySelector(".equal");
+const clearButton = document.querySelector(".clear");
 
-let anyNumbers = [];
-let anyOperator = "";
-let result = 0;
-
-operators.forEach((operator) => {
-  operator.addEventListener("click", () => {
-    anyOperator = operator.textContent;
-    console.log(`operator clicked: ${anyOperator}`);
-  });
-});
+let currentInput = "";
+let currentOperator = "";
+let result = null;
+let isCalculate = false;
 
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
-    anyNumbers.push(Number(number.textContent));
-    console.log(`Number clicked: ${anyNumbers}`);
+    if (!isCalculate) {
+      currentInput += number.textContent;
+      panel.textContent += number.textContent;
+    }
   });
 });
 
-const sum = (...value) => {
-  let result = value.reduce((acc, num) => acc + num, 0);
-  return result;
-};
-const performCalculation = () => {
-  if (anyNumbers.length >= 2) {
-    const num1 = anyNumbers.shift();
-    const num2 = anyNumbers.shift();
-
-    if (anyOperator === "-") {
-      result = num1 - num2;
+operators.forEach((operator) => {
+  operator.addEventListener("click", () => {
+    if (currentInput !== "") {
+      if (result === null) {
+        result = parseFloat(currentInput);
+      } else {
+        result = operate(result, currentOperator, parseFloat(currentInput));
+      }
+      currentInput = "";
+      currentOperator = operator.textContent;
+      panel.textContent += " " + currentOperator + " ";
     }
+  });
+});
 
-    console.log(`Calculation result: ${result}`);
-
+equalButton.addEventListener("click", () => {
+  if (currentInput !== "" && currentOperator !== "") {
+    result = operate(result, currentOperator, parseFloat(currentInput));
     panel.textContent = result;
-    anyOperator = null;
-    anyNumbers.push(result);
-  }
-};
-// testando git merge
-equal.addEventListener("click", () => {
-  const makeSum = anyOperator === "+" && anyNumbers.length > 0;
-  const makeSubtract = anyOperator === "-" && anyNumbers.length > 0;
-  const numericNumbers = anyNumbers.map(Number); // Converta todos os números para valores numéricos
-  if (makeSum) {
-    const result = sum(...numericNumbers);
-    panel.textContent = result;
-  } else if (makeSubtract) {
-    performCalculation();
+    currentInput = "";
+    currentOperator = "";
+    isCalculate = true;
   }
 });
 
-clear.addEventListener("click", () => {
-  anyNumbers = [];
-  anyOperator = "";
+clearButton.addEventListener("click", () => {
+  currentInput = "";
+  currentOperator = "";
+  result = null;
   panel.textContent = "";
+  isCalculate = false;
 });
+
+function operate(num1, operator, num2) {
+  switch (operator) {
+    case "+":
+      return num1 + num2;
+    case "-":
+      return num1 - num2;
+    case "X":
+      return num1 * num2;
+    case "%":
+      return (num1 / 100) * num2;
+    case "/":
+      if (num2 === 0) {
+        panel.textContent = "Error";
+        return null;
+      } else {
+        return num1 / num2;
+      }
+    default:
+      return null;
+  }
+}

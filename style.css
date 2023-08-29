@@ -43,7 +43,7 @@ body {
     "seven eight nine multiply"
     "four five six subtract"
     "one two three plus"
-    "zero comma equal equal";
+    "zero equal equal equal";
 }
 
 #panel {
@@ -111,9 +111,6 @@ body {
 
 .zero {
   grid-area: zero;
-}
-.comma {
-  grid-area: comma;
 }
 .equal {
   grid-area: equal;
